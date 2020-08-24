@@ -7,9 +7,9 @@ import bcrypt from 'bcrypt'
 
 const router = express.Router()
 
-router.post('/',async (req, res, next) => {
+router.post('/user',async (req, res, next) => {
     try {
-        const exist = findByEmail(req.body.email)
+        const exist = await findByEmail(req.body.email)
         if (exist) {
             return res.status(403).send('이미 사용중인 아이디입니다')
         }
