@@ -9,8 +9,8 @@ export default (sequelize, DataTypes) => {
         collate: 'utf8mb4_general_ci'
     })
 
-    HashTag.accosicate = (db) => {
-        db.HashTag.belongsToMany(db.Post) // N:M
+    HashTag.associate = (db) => {
+        db.HashTag.belongsToMany(db.Post, {through: 'PostHashTag'}) // N:M
     }
 
     return HashTag

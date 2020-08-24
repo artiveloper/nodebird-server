@@ -9,11 +9,11 @@ export default (sequelize, DataTypes) => {
         collate: 'utf8mb4_general_ci'
     })
 
-    Post.accosicate = (db) => {
+    Post.associate = (db) => {
         db.Post.belongsTo(db.User)
         db.Post.hasMany(db.Comment)
         db.Post.hasMany(db.Post)
-        db.Post.belongsToMany(db.HashTag) // N:M
+        db.Post.belongsToMany(db.HashTag,{through: 'PostHashTag'}) // N:M
         db.Post.belongsToMany(db.User, {through: 'Like', as: 'Liker'}) // 좋아요 누른 사람
         db.Post.belongsTo(Post, {as : 'Retweet'}) // 리트윗
     }

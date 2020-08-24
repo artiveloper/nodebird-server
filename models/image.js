@@ -9,7 +9,7 @@ export default (sequelize, DataTypes) => {
         collate: 'utf8_general_ci'
     })
 
-    Image.accosicate = (db) => {
+    Image.associate = (db) => {
         db.Image.belongsTo(db.Post)
     }
 

@@ -9,7 +9,7 @@ export default (sequelize, DataTypes) => {
         collate: 'utf8mb4_general_ci'
     })
 
-    Comment.accosicate = (db) => {
+    Comment.associate = (db) => {
         db.Post.belongsTo(db.User)
         db.Post.belongsTo(db.Post)
     }

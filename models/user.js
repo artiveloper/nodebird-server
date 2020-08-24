@@ -18,7 +18,7 @@ export default (sequelize, DataTypes) => {
         collate: 'utf8_general_ci'
     })
 
-    User.accosicate = (db) => {
+    User.associate = (db) => {
         db.User.hasMany(db.Post)
         db.User.hasMany(db.Comment)
         db.User.belongsToMany(db.Post, {through: 'Like', as: 'Liked'}) // 좋아요 한 게시글

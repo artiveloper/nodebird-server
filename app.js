@@ -1,5 +1,12 @@
 import express from 'express'
 import routerRegister from './routes/register'
+import db from './models'
+
+db.sequelize.sync()
+    .then(() => {
+        console.log('db 연결 성공')
+    })
+    .catch(console.log)
 
 const app = express()
 
