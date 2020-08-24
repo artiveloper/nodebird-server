@@ -14,6 +14,8 @@ db.sequelize.sync(databaseOptions)
 
 // express configuration
 const app = express()
+app.use(express.json())
+app.use(express.urlencoded({extended: true}))
 
 routerRegister(app)
 
