@@ -1,7 +1,15 @@
 import express from 'express'
+import session from 'express-session'
+import cookieParser from 'cookie-parser'
 import cors from 'cors'
+import passport from 'passport'
+import dotenv from 'dotenv'
+
+import passportConfig from './passport'
 import routerRegister from './routes/register'
 import db from './models'
+
+dotenv.config()
 
 // database configuration
 const databaseOptions = {
@@ -14,16 +22,27 @@ db.sequelize.sync(databaseOptions)
     })
     .catch(console.log)
 
+// passport configuration
+passportConfig()
+
 // express configuration
 const app = express()
 
 app.use(cors({
     origin: '*',
-    credentials: false,
+    credential: false,
 }))
 
-app.use(express.json())
-app.use(express.urlencoded({extended: true}))
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use(session({
+    saveUninitialized: false,
+    resave: false,
+    secret: process.env.COOKIE_SECRET,
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 routerRegister(app)
 

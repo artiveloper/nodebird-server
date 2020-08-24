@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize'
-import databaseConfig from '../config/config.json'
+import databaseConfig from '../config/config.js'
 
 import UserModel from './user'
 import PostModel from './post'

@@ -1,13 +1,33 @@
 import express from 'express'
+import passport from 'passport'
+import bcrypt from 'bcrypt'
 import {
     findByEmail,
     save
-} from '../repositories/user.repository';
-import bcrypt from 'bcrypt'
+} from '../repositories/user.repository'
 
 const router = express.Router()
 
-router.post('/user',async (req, res, next) => {
+router.post('/login', (req, res, next) => {
+    passport.authenticate('local', (err, user, info) => {
+        if (err) {
+            console.error(err);
+            return next(err);
+        }
+        if (info) {
+            return res.status(401).send(info.reason);
+        }
+        return req.login(user, async (loginErr) => {
+            if (loginErr) {
+                console.error(loginErr)
+                return next(loginErr)
+            }
+            return res.status(200).json('data');
+        })
+    })(req, res, next)
+})
+
+router.post('/', async (req, res, next) => {
     try {
         const exist = await findByEmail(req.body.email)
         if (exist) {
@@ -22,6 +42,12 @@ router.post('/user',async (req, res, next) => {
         console.log(error)
         next(error)
     }
+})
+
+router.post('/logout', (req, res, next) => {
+    req.logout()
+    req.session.destroy()
+    req.send('ok')
 })
 
 export default router
