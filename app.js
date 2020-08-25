@@ -29,8 +29,7 @@ passportConfig()
 const app = express()
 
 app.use(cors({
-    origin: '*',
-    credential: false,
+    origin: '*'
 }))
 
 app.use(express.json());
