@@ -3,6 +3,7 @@ import passport from 'passport'
 import bcrypt from 'bcrypt'
 import {
     findByEmail,
+    getUserInfoWithPost,
     save
 } from '../repositories/user.repository'
 
@@ -10,19 +11,27 @@ const router = express.Router()
 
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
-        if (err) {
+        if (err) { // 서버 에러
             console.error(err);
             return next(err);
         }
-        if (info) {
+        if (info) { // 클라이언트 에러 (로그인 실패)
             return res.status(401).send(info.reason);
         }
         return req.login(user, async (loginErr) => {
-            if (loginErr) {
+            if (loginErr) { // passport 에러
                 console.error(loginErr)
                 return next(loginErr)
             }
-            return res.status(200).json('data');
+
+            try {
+                const userInfo = await getUserInfoWithPost(user.id)
+                return res.status(200).json(userInfo);
+            } catch (error) {
+                console.error(error)
+                return next(error)
+            }
+
         })
     })(req, res, next)
 })

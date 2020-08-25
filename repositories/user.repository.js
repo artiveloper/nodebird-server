@@ -1,4 +1,4 @@
-import {User} from '../models';
+import {User, Post} from '../models';
 
 const findByEmail = async (email) => {
     return await User.findOne({
@@ -16,6 +16,22 @@ const findById = async (id) => {
     })
 }
 
+const getUserInfoWithPost = async (id) => {
+    return await User.findOne({
+        where: {
+            id
+        },
+        attributes: {
+            exclude: 'password'
+        },
+        include: [
+            {model: Post},
+            {model: User, as: 'Followings'},
+            {model: User, as: 'Followers'}
+        ]
+    })
+}
+
 const save = async (email, nickname, hashedPassword) => {
     await User.create({
         email,
@@ -27,5 +43,6 @@ const save = async (email, nickname, hashedPassword) => {
 export {
     findByEmail,
     findById,
+    getUserInfoWithPost,
     save
 }
