@@ -2,6 +2,10 @@ import express from 'express'
 import passport from 'passport'
 import bcrypt from 'bcrypt'
 import {
+    isLoggedIn,
+    isNotLoggedIn,
+} from '../middlewares'
+import {
     findByEmail,
     getUserInfoWithPost,
     save
@@ -9,7 +13,7 @@ import {
 
 const router = express.Router()
 
-router.post('/login', (req, res, next) => {
+router.post('/login', isNotLoggedIn, (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
         if (err) { // 서버 에러
             console.error(err);
@@ -36,7 +40,7 @@ router.post('/login', (req, res, next) => {
     })(req, res, next)
 })
 
-router.post('/', async (req, res, next) => {
+router.post('/', isNotLoggedIn, async (req, res, next) => {
     try {
         const exist = await findByEmail(req.body.email)
         if (exist) {
@@ -53,7 +57,7 @@ router.post('/', async (req, res, next) => {
     }
 })
 
-router.post('/logout', (req, res, next) => {
+router.post('/logout', isLoggedIn, (req, res, next) => {
     req.logout()
     req.session.destroy()
     req.send('ok')
