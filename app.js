@@ -29,8 +29,9 @@ passportConfig()
 const app = express()
 
 app.use(cors({
-    origin: '*'
-}))
+    origin: 'http://localhost:4000',
+    credentials: true,
+}));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

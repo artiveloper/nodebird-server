@@ -1,10 +1,15 @@
-import {Post} from '../models'
+import {User, Post, Image, Comment} from '../models'
 
 const findPost = async (postId) => {
     return await Post.findOne({
         where : {
             postId
-        }
+        },
+        include: [
+            {model: Image},
+            {model: Comment},
+            {model: User},
+        ]
     })
 }
 

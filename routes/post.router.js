@@ -13,7 +13,8 @@ const router = express.Router()
 router.post('/',  isLoggedIn, async (req, res, next) => {
     try {
         const savedPost = await save(req.user.id, req.body.content)
-        res.status(201).send(savedPost)
+        const fullPost = await findPost(savedPost.id)
+        res.status(201).send(fullPost)
     } catch (error) {
         console.error(error)
         next(error)
