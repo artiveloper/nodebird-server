@@ -21,9 +21,9 @@ export default (sequelize, DataTypes) => {
     User.associate = (db) => {
         db.User.hasMany(db.Post)
         db.User.hasMany(db.Comment)
-        db.User.belongsToMany(db.Post, {through: 'Like', as: 'Liked'}) // 좋아요 한 게시글
-        db.User.belongsToMany(db.User, {through: 'Follow', as: 'Followers', foreignKey: 'FollowingId'}) // 팔로워들
-        db.User.belongsToMany(db.User, {through: 'Follow', as: 'Followings', foreignKey: 'FollowerId'}) // 팔로윙들
+        db.User.belongsToMany(db.Post, { through: 'Like', as: 'Liked' })
+        db.User.belongsToMany(db.User, { through: 'Follow', as: 'Followers', foreignKey: 'FollowingId' })
+        db.User.belongsToMany(db.User, { through: 'Follow', as: 'Followings', foreignKey: 'FollowerId' })
     }
 
     return User

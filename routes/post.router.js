@@ -5,6 +5,7 @@ import {
 import {
     findPost,
     save,
+    getComment,
     saveComment,
 } from '../repositories/post.repository'
 
@@ -28,8 +29,9 @@ router.post('/:postId/comment', isLoggedIn, async (req, res, next) => {
         if(!post) {
             return res.status(403).send('존재하지 않는 게시글입니다.')
         }
-        const savedComment = await saveComment(postId, req.body.content)
-        res.status(201).send(savedComment)
+        const savedComment = await saveComment(postId, req.user.id, req.body.content)
+        const fullComment = await getComment(savedComment.id)
+        res.status(201).send(fullComment)
     } catch (error) {
         console.error(error)
         next(error)

@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import passport from 'passport'
 import dotenv from 'dotenv'
+import morgan from 'morgan'
 
 import passportConfig from './passport'
 import routerRegister from './routes/register'
@@ -28,6 +29,7 @@ passportConfig()
 // express configuration
 const app = express()
 
+app.use(morgan('dev'))
 app.use(cors({
     origin: 'http://localhost:4000',
     credentials: true,

@@ -10,8 +10,8 @@ export default (sequelize, DataTypes) => {
     })
 
     Comment.associate = (db) => {
-        db.Post.belongsTo(db.User)
-        db.Post.belongsTo(db.Post)
+        db.Comment.belongsTo(db.User)
+        db.Comment.belongsTo(db.Post)
     }
 
     return Comment
