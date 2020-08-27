@@ -25,9 +25,9 @@ const getUserInfoWithPost = async (id) => {
             exclude: 'password'
         },
         include: [
-            {model: Post},
-            {model: User, as: 'Followings'},
-            {model: User, as: 'Followers'}
+            {model: Post, attributes: ['id']},
+            {model: User, as: 'Followings', attributes: ['id']},
+            {model: User, as: 'Followers', attributes: ['id']}
         ]
     })
 }

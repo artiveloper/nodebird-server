@@ -6,12 +6,26 @@ import {
     isNotLoggedIn,
 } from '../middlewares'
 import {
-    findByEmail,
+    findByEmail, findById,
     getUserInfoWithPost,
     save
 } from '../repositories/user.repository'
 
 const router = express.Router()
+
+router.get('/', async (req, res, next) => {
+    try {
+        if (req.user) {
+            const user = await getUserInfoWithPost(req.user.id)
+            res.status(200).json(user)
+        } else {
+            res.status(200).json(null)
+        }
+    } catch (error) {
+        console.error(error)
+        next(error)
+    }
+})
 
 router.post('/login', isNotLoggedIn, (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
